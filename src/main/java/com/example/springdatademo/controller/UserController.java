@@ -39,9 +39,10 @@ public class UserController {
 	public ResponseEntity<List<User>> getUsers(
 			@RequestParam(defaultValue = "0") Integer pageNo, 
             @RequestParam(defaultValue = "3") Integer pageSize,
-            @RequestParam(defaultValue = "yearsOfExperience") String sortBy
+            @RequestParam Integer yearsOfExperience,
+            @RequestParam String sortBy
 			) {
-		return ResponseEntity.ok(service.getUsers(pageNo,pageSize,sortBy));
+		return ResponseEntity.ok(service.getUsers(pageNo,pageSize,yearsOfExperience,sortBy));
 	}
 
 	@ApiOperation("View a User by userId")
@@ -63,6 +64,22 @@ public class UserController {
 		service.deleteUser(userId);
 		return "Record deleted successfully";
 		
+	}
+	
+	@ApiOperation("View Users with Exp Less than or Equal")
+	@GetMapping(value="/expLessThan",produces = "application/json")
+	public ResponseEntity<List<User>> getUsersWithYoeLessThan(@RequestParam("") Integer value) {
+		return ResponseEntity.ok(service.getUsersWithYoeLessThan(value));
+	}
+	@ApiOperation("View Users with Exp greater than or Equal")
+	@GetMapping(value="/expGreaterThan",produces = "application/json")
+	public ResponseEntity<List<User>> getUsersWithYoeGreaterThan10(@RequestParam("") Integer value) {
+		return ResponseEntity.ok(service.getUsersWithYoeGreaterThan(value));
+	}
+	@ApiOperation("View Users with Exp Between ")
+	@GetMapping(value="/expBetween",produces = "application/json")
+	public ResponseEntity<List<User>> getUsersWithYoeBetween5to10(Integer value1, Integer value2) {
+		return ResponseEntity.ok(service.getUsersWithYoeBetween(value1,value2));
 	}
 	
 	
