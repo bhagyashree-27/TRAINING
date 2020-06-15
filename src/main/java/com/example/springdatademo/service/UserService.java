@@ -6,19 +6,17 @@ import org.springframework.stereotype.Service;
 
 import com.example.springdatademo.dto.UserDto;
 import com.example.springdatademo.entity.User;
+import com.example.springdatademo.exception.UserNotFoundException;
 
 
 @Service
 public interface UserService {
-	
-	public List<User> getUsers(Integer pageNo, Integer pageSize, String sortBy);
 
-
-	public void deleteUser(Integer id);
+	public void deleteUser(Integer id) throws UserNotFoundException;
 
 	public User updateUser(User User);
 
-	public User getUserById(Integer id);
+	public User getUserById(Integer id) throws UserNotFoundException;
 
 	List<UserDto> groupUsersByExperience();
 
@@ -26,7 +24,7 @@ public interface UserService {
 
 	User addUser(User demoUser);
 
-
+	public List<User> getUsers(Integer pageNo, Integer pageSize, Integer yearsOfExperience, Integer yearsOfExperienceMax, String sortBy);
 
 
 }

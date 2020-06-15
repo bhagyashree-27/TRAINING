@@ -4,21 +4,32 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
 
 @Entity
 public class User {
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	Integer userId;
 	
+	@NotBlank(message = "First Name must not be Empty")
 	String firstName;
 
 	String lastName;
 	
 	String userRole;
 	
+	@NotNull(message="Years of experience must not be null")
 	Integer yearsOfExperience;
 	
+
+	
+	public User() {
+		super();
+	}
+
 
 	public Integer getUserId() {
 		return userId;
@@ -75,6 +86,17 @@ public class User {
 
 	public void setUserId(Integer userId) {
 		this.userId = userId;
+	}
+
+
+	public User(Integer userId, @NotBlank(message = "First Name must not be Empty") String firstName, String lastName,
+			String userRole, @NotNull(message = "Years of experience must not be null") Integer yearsOfExperience) {
+		super();
+		this.userId = userId;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.userRole = userRole;
+		this.yearsOfExperience = yearsOfExperience;
 	}
 	
 	

@@ -14,11 +14,11 @@ import com.example.springdatademo.entity.User;
 @Repository
 public interface UserRepository extends JpaRepository<User, Integer> {
 
-	Page<User> findAll(Pageable pageable);
-
 	@Query(value = "SELECT new com.example.springdatademo.dto.UserDto(u.yearsOfExperience,count(*)) from User u group by yearsOfExperience")
 	List<UserDto> groupUsersByExperience();
 
-	List<User> findAllOrderByFirstName(String firstName);
+	Page<User> findByYearsOfExperienceGreaterThanEqualAndYearsOfExperienceLessThanEqual(Integer yearsOfExperienceMin, Integer yearsOfExperienceMax,
+			Pageable pageable);
 
 }
+	
