@@ -1,6 +1,5 @@
 package com.example.springdatademo.controller;
 
-import java.time.LocalDate;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -25,14 +24,22 @@ public class AuditController {
 	@Autowired
 	AuditService service;
 
+	/**Method to fetch audit logs
+	 * @param pageNo
+	 * @param pageSize
+	 * @param actionName
+	 * @param startDate
+	 * @param endDate
+	 * @return ResponseEntity<List<AuditLog>>
+	 */
 	@ApiOperation(value ="View audit logs")
 	@GetMapping(produces = "application/json")
 	public ResponseEntity<List<AuditLog>> getAuditLogs(
 			@RequestParam(defaultValue = "0") Integer pageNo, 
             @RequestParam(defaultValue = "5") Integer pageSize,
             @RequestParam(required=false) String actionName, 
-            @RequestParam(required=false) LocalDate startDate,
-            @RequestParam(required=false) LocalDate endDate
+            @RequestParam(required=false) String startDate,
+            @RequestParam(required=false) String endDate
 			) {
 		logger.info("#####START:AuditController.getAuditLogs#####");
 		return ResponseEntity.ok(service.getAuditLogs(pageNo,pageSize,actionName,startDate,endDate));

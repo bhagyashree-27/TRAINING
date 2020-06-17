@@ -1,5 +1,7 @@
 package com.example.springdatademo.controller;
 
+
+
 import java.util.List;
 
 import javax.validation.Valid;
@@ -27,6 +29,10 @@ import com.example.springdatademo.service.UserService;
 
 import io.swagger.annotations.ApiOperation;
 
+/**
+ * @author bhagyashree.naray
+ *
+ */
 @RestController
 @RequestMapping("/users")
 public class UserController {
@@ -34,7 +40,7 @@ public class UserController {
 	@Autowired
 	UserService service;
 
-	/**
+	/**Method to add user
 	 * @param logged_in_user
 	 * @param demoUser
 	 * @return ResponseEntity<User>
@@ -48,7 +54,7 @@ public class UserController {
 		return new ResponseEntity<>(service.addUser(demoUser), HttpStatus.CREATED);
 	}
 
-	/**
+	/**Method to get users based on filter criteria
 	 * @param pageNo
 	 * @param pageSize
 	 * @param yearsOfExperienceMin
@@ -71,7 +77,7 @@ public class UserController {
 		return ResponseEntity.ok(service.getUsers(pageNo,pageSize,yearsOfExperienceMin,yearsOfExperienceMax,sortBy));
 	}
 
-	/**
+	/**Method to get user by given id
 	 * @param logged_in_user
 	 * @param userId
 	 * @return ResponseEntity<User>
@@ -84,7 +90,7 @@ public class UserController {
 		return ResponseEntity.ok(service.getUserById(userId));
 	}
 
-	/**
+	/**Method to update user
 	 * @param logged_in_user
 	 * @param userId
 	 * @param demoUser
@@ -99,7 +105,7 @@ public class UserController {
 		return ResponseEntity.ok(service.updateUser(demoUser));
 	}
 	
-	/**
+	/**Method to delete user
 	 * @param logged_in_user
 	 * @param userId
 	 * @return String
@@ -114,7 +120,7 @@ public class UserController {
 		
 	}
 	
-	/**
+	/**Method to get count of users with given years of experience
 	 * @return ResponseEntity<List<UserDto>>
 	 */
 	@ApiOperation(value ="Count Users By Years Of Experience")

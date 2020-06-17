@@ -1,6 +1,6 @@
 package com.example.springdatademo.service;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -49,6 +49,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public List<User> getUsers() {
+		logger.info("#####START:UserServiceImpl.getUsers#####");
 		return userRepository.findAll();
 	}
 
@@ -95,7 +96,6 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public User getUserById(Integer id) throws UserNotFoundException {
-
 		String loggedInUserRole = getUserRole(Integer.parseInt(getRequestHeader()));
 		logger.info("#####START:UserServiceImpl.getUserById()#####");
 		Optional<User> optional = userRepository.findById(id);
@@ -124,6 +124,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public List<UserDto> groupUsersByExperience() {
+		logger.info("#####START:UserServiceImpl.groupUsersByExperience()#####");
 		return userRepository.groupUsersByExperience();
 	}
 
@@ -157,7 +158,7 @@ public class UserServiceImpl implements UserService {
 	private void checkUserRoleAndAudit(String loggedInUserRole, Integer loggedInUserId, String actionName, Integer id) {
 		if (loggedInUserRole.equalsIgnoreCase(UserRole.ADMIN.getUserRole())) {
 			logger.info("Logged in user is an admin");
-			AuditLog auditLog = new AuditLog(actionName, loggedInUserId, id, LocalDate.now());
+			AuditLog auditLog = new AuditLog(actionName, loggedInUserId, id, LocalDateTime.now());
 			logger.info("Adding entry in AuditLog");
 			auditRepository.save(auditLog);
 		}else{

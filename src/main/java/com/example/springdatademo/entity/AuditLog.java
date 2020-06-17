@@ -1,6 +1,6 @@
 package com.example.springdatademo.entity;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -22,7 +22,7 @@ public class AuditLog  {
 	
 	Integer actionOnUser;
 	
-	LocalDate actionDate;
+	LocalDateTime actionDate;
 
 	public Integer getId() {
 		return id;
@@ -41,7 +41,7 @@ public class AuditLog  {
 	}
 	
 
-	public AuditLog( String actionName, Integer actionBy, Integer actionOnUser,LocalDate actionDate) {
+	public AuditLog( String actionName, Integer actionBy, Integer actionOnUser,LocalDateTime actionDate) {
 		super();
 		this.actionName = actionName;
 		this.actionBy = actionBy;
@@ -57,11 +57,11 @@ public class AuditLog  {
 		this.actionBy = actionBy;
 	}
 
-	public LocalDate getActionDate() {
+	public LocalDateTime getActionDate() {
 		return actionDate;
 	}
 
-	public void setActionDate(LocalDate actionDate) {
+	public void setActionDate(LocalDateTime actionDate) {
 		this.actionDate = actionDate;
 	}
 

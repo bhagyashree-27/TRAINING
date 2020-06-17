@@ -1,8 +1,10 @@
 package com.example.springdatademo.service;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,17 +24,29 @@ public class AuditServiceImpl implements AuditService {
 	@Autowired
 	AuditRepository auditRepository;
 
+	
+	/* (non-Javadoc)
+	 * @see com.example.springdatademo.service.AuditService#getAuditLogs(java.lang.Integer, java.lang.Integer, java.lang.String, java.lang.String, java.lang.String)
+	 */
 	@Override
-	public List<AuditLog> getAuditLogs(Integer pageNo, Integer pageSize, String actionName, LocalDate startDate,
-			LocalDate endDate) {
-		
+	public List<AuditLog> getAuditLogs(Integer pageNo, Integer pageSize, String actionName, String startDate,
+			String endDate) {
+
 		Pageable page;
 		Page<AuditLog> pagedResult;
-			page = PageRequest.of(pageNo, pageSize);
-
+		page = PageRequest.of(pageNo, pageSize);
 		
-			pagedResult = auditRepository.findByActionName(actionName, page);
 		
+		if(startDate!=null && endDate!=null){
+			
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+			LocalDateTime startDateTime = LocalDateTime.parse(startDate, formatter);
+			LocalDateTime endDateTime = LocalDateTime.parse(endDate, formatter);
+			
+			pagedResult = auditRepository.findByActionNameAndActionDateBetween(actionName,startDateTime,endDateTime,page);
+			
+		}
+		else		pagedResult = auditRepository.findByActionName(actionName, page);
 
 		if (pagedResult.hasContent()) {
 			return pagedResult.getContent();
@@ -40,7 +54,6 @@ public class AuditServiceImpl implements AuditService {
 			return new ArrayList<AuditLog>();
 		}
 
-	
 	}
 
 }
