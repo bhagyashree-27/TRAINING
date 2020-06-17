@@ -14,7 +14,7 @@ public interface UserService {
 
 	public void deleteUser(Integer id) throws UserNotFoundException;
 
-	public User updateUser(User User);
+	public User updateUser(User User) throws NumberFormatException, UserNotFoundException;
 
 	public User getUserById(Integer id) throws UserNotFoundException;
 
@@ -22,7 +22,7 @@ public interface UserService {
 
 	List<User> getUsers();
 
-	User addUser(User demoUser);
+	User addUser(User demoUser) throws NumberFormatException, UserNotFoundException;
 
 	public List<User> getUsers(Integer pageNo, Integer pageSize, Integer yearsOfExperience, Integer yearsOfExperienceMax, String sortBy);
 

@@ -6,12 +6,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.example.springdatademo.entity.User;
@@ -21,11 +23,17 @@ import com.example.springdatademo.repository.UserRepository;
 @SpringBootTest
 @RunWith(SpringRunner.class)
 public class UserServiceTest {
+	
+	@Before
+    public void init() {
+        MockitoAnnotations.initMocks(this);
+    }
+ 
 
-	@Autowired
-	UserService userService;
+	@InjectMocks
+	UserService userService = new UserServiceImpl();
 
-	@MockBean
+	@Mock
 	private UserRepository mockRepository;
 
 	@Test
@@ -67,6 +75,18 @@ public class UserServiceTest {
 		User result = userService.addUser(user1);
 
 		assertEquals("Admin", result.getUserRole());
+	}
+	
+	@Test
+	public void testDeleteUser() throws UserNotFoundException {
+		Optional<User> user1 = Optional.of(new User(101, "Ayush", "Agarwal", "Admin", 4));
+
+		Mockito.when(mockRepository.findById(new Integer(101))).thenReturn(user1);
+
+		userService.deleteUser(new Integer(101));
+		
+		Mockito.verify(mockRepository,Mockito.times(1)).delete(user1.get()) ;
+
 	}
 
 }
